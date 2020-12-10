@@ -1,17 +1,24 @@
 #!/usr/bin/python3
 
 
+def join(T,R):
+    res =[]
+    for e in R:
+        res += T[e]
+    return res
+
+
 def canUnlockAll(boxes):
-    newlist = []
-    k = len(boxes)
-    for i in boxes:
-        if len(i) == 0 and i is not boxes[k-1]:
-            return False
-        for j in i:
-            newlist.append(j)
-    print(newlist)
-    for index, keys in enumerate(boxes):
-        if index in newlist or index < k-1:
-            return True
-        else:
-            return False
+    index = 0
+    total = list(set(boxes[0])| {0})
+    added = True
+    while added:
+        added = False
+        for j in join(boxes,total[index:]):
+            if j not in total:
+                total.append(j)
+                index +=1
+                added= True
+    print(total)
+
+    return len(total)==len(boxes)
