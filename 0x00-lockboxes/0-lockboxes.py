@@ -1,13 +1,7 @@
 #!/usr/bin/python3
-"""
-Boxes
-"""
 
 
 def join(T, R):
-    """
-    Join
-    """
     res = []
     for e in R:
         res += T[e]
@@ -15,9 +9,6 @@ def join(T, R):
 
 
 def canUnlockAll(boxes):
-    """
-    Unlock
-    """
     index = 0
     total = list(set(boxes[0]) | {0})
     added = True
