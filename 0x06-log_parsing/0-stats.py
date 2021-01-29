@@ -1,41 +1,38 @@
 #!/usr/bin/python3
-"""
-    This script reads stdin line by line and computes metrics
-"""
+"""This module reads the stdin and prints the metrics."""
 import sys
 
-
-def print_stats(filesize, codeKey):
-    """ Method to Print Stats about Status code """
-    print("File size: {:d}".format(filesize))
-    for key in sorted(codeKey.keys()):
-        if codeKey[key] != 0:
-            print("{}: {:d}".format(key, codeKey[key]))
-
 if __name__ == "__main__":
-    filesize = 0
-    countLine = 0
-    codeKey = {
-        '200': 0, '301': 0, '400': 0,
-        '401': 0, '403': 0, '404': 0,
-        '405': 0, '500': 0
-    }
+
+    status = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
+              "404": 0, "405": 0, "500": 0}
+    size = 0
+    print10Lines = 0
 
     try:
-        for line in sys.stdin:
-            line = line.split()
+        for text in sys.stdin:
+            code = text.split('"')[2].split(" ")[0]
+            unitSize = int(text.split('"')[2].split(" ")[1])
+            size += unitSize
+            print10Lines += 1
 
-            if len(line) >= 2:
+            for key in sorted(status.keys()):
+                if code == key:
+                    status[key] += 1
 
-                if line[-2] in codeKey.keys():
-                    codeKey[line[-2]] += 1
+            if print10Lines == 10:
+                print("File size: {:d}".format(size))
+                for key in sorted(status.keys()):
+                    if status[key] and status is int:
+                        print("{}: {:d}".format(key, status[key]))
+                print10Lines = 0
 
-                filesize += int(line[-1])
-                countLine += 1
-
-                if not countLine % 10:
-                    print_stats(filesize, codeKey)
-        print_stats(filesize, codeKey)
     except KeyboardInterrupt:
-        print_stats(filesize, codeKey)
-        raise
+        pass
+
+    finally:
+        print("File size: {:d}".format(size))
+
+        for key in sorted(status.keys()):
+            if status[key] and status is int:
+                print("{}: {:d}".format(key, status[key]))
