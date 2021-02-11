@@ -17,9 +17,9 @@ int is_palindrome(unsigned long n)
 		sup /= 10;
 	}
 
-	if (digits != n)
+	if (digits == n)
     {
-		return(0);
+		return(1);
     }
-	return(1);
+	return(0);
 }
