@@ -10,58 +10,38 @@
  */
 int advanced_binary(int *array, size_t size, int value)
 {
-    size_t ini, end;
-	int i;
+    size_t i, pivot, idx = 0;
+	int aux;
 
-	if (array == NULL)
-		return (-1);
-	ini = 0;
-	end = size - 1;
-	i = (ini + end) / 2;
-	while (ini <= end)
-	{
-		print_array(array, ini, end);
-		i = (ini + end) / 2;
-		if (array[i] == value)
-		{
-			return (i);
-		}
-		else if (array[i] > value)
-		{
-			end = i - 1;
-		}
-		else
-		{
-			ini = i + 1;
-		}
-	}
-	return (-1);
-}
-
-/**
- * print_array - search a value in to ordered array
- * @array: integer array
- * @ini: initial index to print
- * @end: end index to print
-*/
-
-void print_array(int *array, size_t ini, size_t end)
-{
-	size_t i, sw = 0;
+	if (!array)
+		return (NOT_FOUND);
 
 	printf("Searching in array: ");
-
-	for (i = ini; i <= end; i++)
+	for (i = 0; i < size; i++)
 	{
-		if (sw == 0)
-		{
-			printf("%d", array[i]);
-			sw = 1;
-		}
+		if (i == size - 1)
+			printf("%d\n", array[i]);
 		else
-		{
-			printf(", %d", array[i]);
-		}
+			printf("%d, ", array[i]);
 	}
-	printf("\n");
+	if (size == 1 && array[0] != value)
+		return (NOT_FOUND);
+	pivot = (size - 1) / 2;
+	if (array[pivot] == value)
+	{
+		if (array[pivot - 1] < value)
+			return (pivot);
+	}
+	if (array[pivot] < value)
+	{
+		idx += pivot + 1;
+		array += pivot + 1;
+		if (size % 2 != 0)
+			pivot--;
+	}
+	pivot++;
+	aux = advanced_binary(array, pivot, value);
+	if (aux != NOT_FOUND)
+		return (aux + idx);
+	return (NOT_FOUND);
 }
