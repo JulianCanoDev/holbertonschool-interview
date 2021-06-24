@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Given a pile of coins of different values, determine the fewest number of coins.
+Given a pile of coins of different values.
 """
 
 
