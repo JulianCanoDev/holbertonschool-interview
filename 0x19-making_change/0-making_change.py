@@ -19,6 +19,7 @@ def makeChange(coins, total):
         total -= coins[value]
         num_coins += 1
 
-    if total < 0:
+    if all(total % coin != 0 for coin in coins):
         return -1
+
     return num_coins
